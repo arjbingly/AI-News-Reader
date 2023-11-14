@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 # Code_Group5
 # Arjun, HaeLee, Nayaeun
 
@@ -29,7 +28,6 @@ news_url = "https://www.cnn.com/politics/live-news/donald-trump-jr-trial-testimo
 summary = summarize_article(news_url)
 print("Summary:", summary)
 # %%
-=======
 from bs4 import BeautifulSoup
 import requests
 from transformers import pipeline
@@ -63,4 +61,3 @@ news_url = "https://www.cnn.com/politics/live-news/donald-trump-jr-trial-testimo
 summarizer_instance = NewsArticleSummarizer()
 summary = summarizer_instance.summarize_article(news_url)
 print("Summary:", summary)
->>>>>>> Stashed changes

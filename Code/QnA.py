@@ -1,5 +1,7 @@
 #%%
 from transformers import pipeline
+from Code_Group5 import NewsArticleSummarizer
+
 
 class QuestionAnswering:
     def __init__(self):

@@ -1,5 +1,5 @@
 
-#%% Keyword exgtraction
+#%% Keyword extraction
 # from transformers import BertTokenizer, BertForTokenClassification
 # import torch
 #
@@ -33,9 +33,6 @@
 
 #%%
 from keybert import KeyBERT
-import requests
-from bs4 import BeautifulSoup
-
 
 class KeywordExtractor:
     def __init__(self):

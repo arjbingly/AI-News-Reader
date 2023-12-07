@@ -1,0 +1,21 @@
+Name: newspaper3k
+Version: 0.2.8
+Summary: Simplified python article discovery & extraction.
+Home-page: https://github.com/codelucas/newspaper/
+Author: Lucas Ou-Yang
+Author-email: lucasyangpersonal@gmail.com
+License: MIT
+Location: /home/ubuntu/.local/lib/python3.10/site-packages
+Requires: beautifulsoup4, cssselect, feedfinder2, feedparser, jieba3k, lxml, nltk, Pillow, python-dateutil, PyYAML, requests, tinysegmenter, tldextract
+
+Name: streamlit
+Version: 1.28.2
+Summary: A faster way to build and share data apps
+Home-page: https://streamlit.io
+Author: Snowflake Inc
+Author-email: hello@streamlit.io
+License: Apache License 2.0
+Location: /home/ubuntu/.local/lib/python3.10/site-packages
+Requires: altair, blinker, cachetools, click, gitpython, importlib-metadata, numpy, packaging, pandas, pillow, protobuf, pyarrow, pydeck, python-dateutil, requests, rich, tenacity, toml, tornado, typing-extensions, tzlocal, validators, watchdog
+Required-by:
+

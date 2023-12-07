@@ -15,10 +15,10 @@ class NewsArticle:
 #%%
 ## Example
 #%%
-url = 'https://www.cnn.com/2023/10/03/europe/nobel-prize-physics-electrons-flashes-light-intl-scn/index.html'
-news = NewsArticle(url)
-#%%
-print('**NEWS ARTICLE**')
-print(f'Title : {news.article.title}')
-print(f'Author: {news.article.authors}')
-print(f'Text  : {news.article.text}')
+# url = 'https://www.cnn.com/2023/10/03/europe/nobel-prize-physics-electrons-flashes-light-intl-scn/index.html'
+# news = NewsArticle(url)
+# #%%
+# print('**NEWS ARTICLE**')
+# print(f'Title : {news.article.title}')
+# print(f'Author: {news.article.authors}')
+# print(f'Text  : {news.article.text}')

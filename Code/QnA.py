@@ -7,7 +7,7 @@ class QuestionAnswering:
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = AutoModelForQuestionAnswering.from_pretrained(model_name)
 
-    def answer_question(self, question, context):
+    def infer(self, question, context):
         # Tokenize the input question and context
         inputs = self.tokenizer(question, context, return_tensors="pt", truncation=True)
 
@@ -47,15 +47,15 @@ class QuestionAnswering:
 # answer2 = qa_instance.answer_question(question, context)
 # print("Answer:", answer2)
 
-
-from news_fetch import NewsArticle
-url = 'https://www.infoq.com/news/2023/12/aws-titan-image-generator/'
-news = NewsArticle(url)
-qa_instance = QuestionAnswering()
-context = news.article.text
-
-question = "What is titan image generator?"
-answer = qa_instance.answer_question(question, context)
-print("Answer:", answer)
+#
+# from news_fetch import NewsArticle
+# url = 'https://www.infoq.com/news/2023/12/aws-titan-image-generator/'
+# news = NewsArticle(url)
+# qa_instance = QuestionAnswering()
+# context = news.article.text
+#
+# question = "What is titan image generator?"
+# answer = qa_instance.answer_question(question, context)
+# print("Answer:", answer)
 
 

@@ -8,7 +8,7 @@ with st.sidebar:
                   )
 
 if not url_input:
-    url_input = 'https://www.cnn.com/2020/05/21/politics/what-matters-may-20/index.html'
+    url_input = 'https://www.cnn.com/2023/10/03/europe/nobel-prize-physics-electrons-flashes-light-intl-scn/index.html'
 
 news = NewsArticle(url_input)
 

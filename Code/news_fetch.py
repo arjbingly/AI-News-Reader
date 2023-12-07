@@ -15,7 +15,7 @@ class NewsArticle:
 #%%
 ## Example
 #%%
-url = 'https://www.cnn.com/2023/11/28/world/sagittarius-a-black-hole-spin-space-time-scn/index.html'
+url = 'https://www.cnn.com/2023/10/03/europe/nobel-prize-physics-electrons-flashes-light-intl-scn/index.html'
 news = NewsArticle(url)
 #%%
 print('**NEWS ARTICLE**')

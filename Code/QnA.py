@@ -1,17 +1,26 @@
-#%%
-from transformers import pipeline
-
+from transformers import AutoTokenizer, AutoModelForQuestionAnswering
+import torch
 
 class QuestionAnswering:
-    def __init__(self):
-        # Initialize the question-answering pipeline
-        self.qa_pipeline = pipeline("question-answering")
+    def __init__(self, model_name="deepset/roberta-base-squad2"):
+        # Load the pre-trained model and tokenizer
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.model = AutoModelForQuestionAnswering.from_pretrained(model_name)
 
     def answer_question(self, question, context):
-        # Provide an answer based on the given question and context
-        answer = self.qa_pipeline(question=question, context=context)
+        # Tokenize the input question and context
+        inputs = self.tokenizer(question, context, return_tensors="pt", truncation=True)
 
-        return answer['answer']
+        # Get the model's prediction
+        with torch.no_grad():
+            outputs = self.model(**inputs)
+
+        # Decode the predicted answer
+        answer_start = torch.argmax(outputs.start_logits)
+        answer_end = torch.argmax(outputs.end_logits) + 1
+        answer = self.tokenizer.decode(inputs["input_ids"][0][answer_start:answer_end])
+
+        return answer
 
 # Example usage
 qa_instance = QuestionAnswering()

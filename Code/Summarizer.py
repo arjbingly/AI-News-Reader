@@ -17,13 +17,13 @@ class Summarizer:
         summary = self.tokenizer.decode(summary_ids[0], skip_special_tokens=True, clean_up_tokenization_spaces=False)
         return summary
 
-# Example usage
-url = 'https://www.cnn.com/2023/10/03/europe/nobel-prize-physics-electrons-flashes-light-intl-scn/index.html'
-news = NewsArticle(url)
-article_text = news.article.text
-
-summarizer_instance = Summarizer()
-summary = summarizer_instance.summarization(article_text)
-print(summary)
+# # Example usage
+# url = 'https://www.cnn.com/2023/10/03/europe/nobel-prize-physics-electrons-flashes-light-intl-scn/index.html'
+# news = NewsArticle(url)
+# article_text = news.article.text
+#
+# summarizer_instance = Summarizer()
+# summary = summarizer_instance.summarization(article_text)
+# print(summary)
 
 

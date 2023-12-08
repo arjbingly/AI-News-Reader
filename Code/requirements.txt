@@ -19,6 +19,17 @@ Location: /home/ubuntu/.local/lib/python3.10/site-packages
 Requires: altair, blinker, cachetools, click, gitpython, importlib-metadata, numpy, packaging, pandas, pillow, protobuf, pyarrow, pydeck, python-dateutil, requests, rich, tenacity, toml, tornado, typing-extensions, tzlocal, validators, watchdog
 Required-by:
 
+Name: sentencepiece
+Version: 0.1.99
+Summary: SentencePiece python wrapper
+Home-page: https://github.com/google/sentencepiece
+Author: Taku Kudo
+Author-email: taku@google.com
+License: Apache
+Location: /home/ubuntu/.local/lib/python3.10/site-packages
+Requires:
+Required-by:
+
 Name: keybert
 Version: 0.8.3
 Summary: KeyBERT performs keyword extraction with state-of-the-art transformer models.
@@ -29,3 +40,4 @@ License:
 Location: /home/ubuntu/.local/lib/python3.10/site-packages
 Requires: numpy, rich, scikit-learn, sentence-transformers
 Required-by:
+

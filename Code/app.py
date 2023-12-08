@@ -13,14 +13,37 @@ st.set_page_config(
 )
 #%%
 st.title('Smart News Reader App')
-with st.expander("ℹ️ - About this app", expanded=True):
+with st.expander("🌟 Welcome to Smart News Reader!", expanded=False):
     st.write(
         """     
--   The *BERT Keyword Extractor* app is an easy-to-use interface built in Streamlit for the amazing [KeyBERT](https://github.com/MaartenGr/KeyBERT) library from Maarten Grootendorst!
--   It uses a minimal keyword extraction technique that leverages multiple NLP embeddings and relies on [Transformers] (https://huggingface.co/transformers/) 🤗 to create keywords/keyphrases that are most similar to a document.
-	    """
+    - Welcome to the Smart News Reader app, your gateway to personalized news exploration!
+    - Uncover key insights, get concise summaries, and engage in insightful Q&A about your favorite articles.
+    - Use the intuitive controls on the left to tailor your news-reading experience to your preferences.
+        """
     )
 
+# Step-by-Step Guide
+with st.expander("🚀 How to Use", expanded=False):
+    st.write(
+        """
+    1. **Paste Article URL:**
+        - Copy the URL of the news article you want to explore.
+        - Paste it into the 'Enter the News Article URL' text box on the left sidebar.
+
+    2. **Choose Features:**
+        - Toggle the switches on the left sidebar to enable or disable features.
+        - Set the minimum and maximum n-gram values for keyword extraction (if enabled).
+
+    3. **Explore Keywords:**
+        - If enabled, discover key words extracted from the article based on your chosen n-gram range.
+
+    5. **Summarize Content:**
+        - If enabled, find a concise summary of the article's content.
+
+    6. **Ask Questions:**
+        - If enabled, interact with the Question Answering feature to get answers related to the article.
+        """
+    )
 #%%
 
 
@@ -70,7 +93,7 @@ if do_summarization:
 if do_qna:
     st.divider()
     qna = QuestionAnswering()
-    st.subheader('Question Answering')
+    st.subheader('Question Answering about Article')
     question = st.chat_input("Ask me questions from the article..")
     if question:
         with st.chat_message('user'):

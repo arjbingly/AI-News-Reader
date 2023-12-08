@@ -20,6 +20,9 @@ class QuestionAnswering:
         answer_end = torch.argmax(outputs.end_logits) + 1
         answer = self.tokenizer.decode(inputs["input_ids"][0][answer_start:answer_end])
 
+        if answer == '[CLS]':
+            answer = "Sorry! I could not find the answer to that in the article."
+
         return answer
 
 

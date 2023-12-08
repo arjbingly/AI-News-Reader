@@ -30,3 +30,14 @@ Location: /home/ubuntu/.local/lib/python3.10/site-packages
 Requires:
 Required-by:
 
+Name: keybert
+Version: 0.8.3
+Summary: KeyBERT performs keyword extraction with state-of-the-art transformer models.
+Home-page: https://github.com/MaartenGr/keyBERT
+Author: Maarten Grootendorst
+Author-email: maartengrootendorst@gmail.com
+License:
+Location: /home/ubuntu/.local/lib/python3.10/site-packages
+Requires: numpy, rich, scikit-learn, sentence-transformers
+Required-by:
+

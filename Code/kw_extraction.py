@@ -1,5 +1,5 @@
 
-#%% Keyword exgtraction
+#%% Keyword extraction
 # from transformers import BertTokenizer, BertForTokenClassification
 # import torch
 #
@@ -33,17 +33,16 @@
 
 #%%
 from keybert import KeyBERT
-import requests
-from bs4 import BeautifulSoup
-
 
 class KeywordExtractor:
-    def __init__(self):
+    def __init__(self, ngram_range=(1,1)):
         self.kw_extractor = KeyBERT()
+        self.ngram_range = ngram_range
 
     def extract_keywords(self, text):
         # Use the extract_keywords function from the KeyBERT library
-        keywords = self.kw_extractor.extract_keywords(text, keyphrase_ngram_range=(1, 1), stop_words='english')
+        keywords = self.kw_extractor.extract_keywords(text, keyphrase_ngram_range=self.ngram_range, stop_words='english')
+
         return keywords
 
 #

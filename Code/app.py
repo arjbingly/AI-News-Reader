@@ -1,3 +1,4 @@
+# To Run: streamlit run app.py --server.port=8888
 import streamlit as st
 
 from news_fetch import NewsArticle
@@ -31,6 +32,12 @@ with st.sidebar:
 
     do_key_word = st.toggle(label='Key Word Extractor',
                             value = 'True')
+    if do_key_word:
+        min_Ngrams = st.slider("Minimum Ngram", min_value=1, max_value=4, value=1, step = 1)
+        max_Ngrams = st.slider("Maximum Ngram", min_value=1, max_value=4, value=1, step = 1)
+        if min_Ngrams > max_Ngrams:
+            st.write(":red[Min. Ngram can't be greater than Max. Ngram]")
+            max_Ngrams = min_Ngrams
 
     do_qna = st.toggle(label='Question Answering',
                             value='True')
@@ -49,7 +56,7 @@ st.image(news.article.top_image)
 if do_key_word:
     st.divider()
     st.subheader('Key Words')
-    keyword_extractor = KeywordExtractor()
+    keyword_extractor = KeywordExtractor(ngram_range=(min_Ngrams, max_Ngrams))
     st.table(keyword_extractor.extract_keywords(news.article.text))
 #%%
 if do_summarization:

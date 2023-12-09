@@ -1,10 +1,11 @@
 # To Run: streamlit run app.py --server.port=8888
 import streamlit as st
+import pandas as pd
 
 from news_fetch import NewsArticle
 from summarizer_beta import Summarizer
 from kw_extraction import KeywordExtractor
-from QnA import QuestionAnswering
+from QnA_beta import QuestionAnswering
 
 #%%
 st.set_page_config(
@@ -45,8 +46,6 @@ with st.expander("🚀 How to Use", expanded=False):
         """
     )
 #%%
-
-
 with st.sidebar:
     url_input = st.text_input('Enter the News Article URL',
                   )
@@ -68,13 +67,23 @@ with st.sidebar:
 if not url_input:
     url_input = 'https://www.cnn.com/2023/10/03/europe/nobel-prize-physics-electrons-flashes-light-intl-scn/index.html'
 
-news = NewsArticle(url_input)
-lang = news.article.meta_lang
+#%%
+# Load models
+@st.cache_resource
+def load_summarizer():
+    return Summarizer()
 
+@st.cache_resource
+def load_qna():
+    return QuestionAnswering()
 
-
+@st.cache_resource
+def load_keyword_extractor(min_Ngrams, max_Ngrams):
+    return KeywordExtractor(ngram_range=(min_Ngrams, max_Ngrams))
 
 #%%
+news = NewsArticle(url_input)
+lang = news.article.meta_lang
 st.header(news.article.title)
 st.subheader(' ,'.join(news.article.authors))
 st.caption(f'Source: {news.article.url} ')
@@ -84,12 +93,12 @@ st.image(news.article.top_image)
 if do_key_word:
     st.divider()
     st.subheader('Key Words')
-    keyword_extractor = KeywordExtractor(ngram_range=(min_Ngrams, max_Ngrams))
+    keyword_extractor = load_keyword_extractor(min_Ngrams, max_Ngrams)
     st.table(keyword_extractor.extract_keywords(news.article.text))
 #%%
 if do_summarization:
     st.divider()
-    summarizer = Summarizer()
+    summarizer = load_summarizer()
     st.subheader('Summary')
     summary = summarizer.summarize(news.article.text)
     st.write(summary)
@@ -97,14 +106,16 @@ if do_summarization:
 #%%
 if do_qna:
     st.divider()
-    qna = QuestionAnswering()
+    qna = load_qna()
+    qna.create_vector_db(news.article.text)
     st.subheader('Question Answering about Article')
     question = st.chat_input("Ask me questions from the article..")
     if question:
         with st.chat_message('user'):
             # st.write(f':green[*USER* ---> {question}]')
             st.write(question)
+        answers = pd.DataFrame(qna.infer(question)).sort_values('score').reset_index()
         with st.chat_message('ai'):
             # st.write(f':blue[*ANSWER* --> {qna.infer(question, news.article.text)}]')
-            st.write(qna.infer(question, news.article.text))
+            st.write(answers.iloc[0].answer)
     # st.write(news.article.text)

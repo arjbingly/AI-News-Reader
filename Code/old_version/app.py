@@ -1,11 +1,10 @@
 # To Run: streamlit run app.py --server.port=8888
 import streamlit as st
-import pandas as pd
 
 from news_fetch import NewsArticle
-from summarizer_beta import Summarizer
+from summarizer import Summarizer
 from kw_extraction import KeywordExtractor
-from chatbot_beta import ConversationalQA
+from QnA import QuestionAnswering
 
 #%%
 st.set_page_config(
@@ -46,6 +45,8 @@ with st.expander("🚀 How to Use", expanded=False):
         """
     )
 #%%
+
+
 with st.sidebar:
     url_input = st.text_input('Enter the News Article URL',
                   )
@@ -67,23 +68,13 @@ with st.sidebar:
 if not url_input:
     url_input = 'https://www.cnn.com/2023/10/03/europe/nobel-prize-physics-electrons-flashes-light-intl-scn/index.html'
 
-#%%
-# Load models
-@st.cache_resource
-def load_summarizer():
-    return Summarizer()
-
-@st.cache_resource
-def load_chatbot():
-    return ConversationalQA()
-
-@st.cache_resource
-def load_keyword_extractor(min_Ngrams, max_Ngrams):
-    return KeywordExtractor(ngram_range=(min_Ngrams, max_Ngrams))
-
-#%%
 news = NewsArticle(url_input)
 lang = news.article.meta_lang
+
+
+
+
+#%%
 st.header(news.article.title)
 st.subheader(' ,'.join(news.article.authors))
 st.caption(f'Source: {news.article.url} ')
@@ -93,29 +84,27 @@ st.image(news.article.top_image)
 if do_key_word:
     st.divider()
     st.subheader('Key Words')
-    keyword_extractor = load_keyword_extractor(min_Ngrams, max_Ngrams)
+    keyword_extractor = KeywordExtractor(ngram_range=(min_Ngrams, max_Ngrams))
     st.table(keyword_extractor.extract_keywords(news.article.text))
 #%%
 if do_summarization:
     st.divider()
-    summarizer = load_summarizer()
+    summarizer = Summarizer()
     st.subheader('Summary')
-    summary = summarizer.summarize(news.article.text)
+    summary = summarizer.summarization(news.article.text)
     st.write(summary)
     # st.write(news.article.text)
 #%%
 if do_qna:
     st.divider()
-    chatbot = load_chatbot()
-    chatbot.create_vector_db(news.article.text)
-    chatbot.create_pipe()
+    qna = QuestionAnswering()
     st.subheader('Question Answering about Article')
     question = st.chat_input("Ask me questions from the article..")
     if question:
         with st.chat_message('user'):
             # st.write(f':green[*USER* ---> {question}]')
             st.write(question)
-        result = chatbot.infer(question)
         with st.chat_message('ai'):
             # st.write(f':blue[*ANSWER* --> {qna.infer(question, news.article.text)}]')
-            st.write(result['answer'])
+            st.write(qna.infer(question, news.article.text))
+    # st.write(news.article.text)

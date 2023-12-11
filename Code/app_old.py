@@ -57,10 +57,11 @@ with st.sidebar:
                   value = 'https://www.cnn.com/2023/10/03/europe/nobel-prize-physics-electrons-flashes-light-intl-scn/index.html',
                   key='url_input',
                   on_change = clear_chat())
+    st.divider()
     st.toggle(label='Summarization',
               value='True',
               key = 'do_summarization')
-
+    st.divider()
     st.toggle(label='Key Word Extractor',
                             value = 'True',
                             key='do_key_word')
@@ -70,15 +71,20 @@ with st.sidebar:
         if st.session_state.min_Ngrams > st.session_state.max_Ngrams:
             st.write(":red[Min. Ngram can't be greater than Max. Ngram]")
             st.session_state.max_Ngrams = st.session_state.min_Ngrams
-
+    st.divider()
     st.toggle(label='Zero-Shot Classifier',
               value='True',
               key='do_zeroshot')
 
+    st.divider()
     st.toggle(label='Question Answering',
               value='True',
               key='do_qna')
 
+    if st.session_state.do_qna:
+        st.toggle(label='Show relavent document',
+                  value=True,
+                  key='show_doc')
 
 #%%
 # Load models
@@ -113,9 +119,10 @@ st.image(news.article.top_image)
 if st.session_state.do_key_word:
     st.divider()
     st.subheader('Key Words')
-    keyword_extractor = load_keyword_extractor(st.session_state.min_Ngrams, st.session_state.max_Ngrams)
-    key_words_df = pd.DataFrame(keyword_extractor.extract_keywords(news.article.text),
-                                columns=['Key Word', 'Score'])
+    with st.spinner('Extracting key words from the article...'):
+        keyword_extractor = load_keyword_extractor(st.session_state.min_Ngrams, st.session_state.max_Ngrams)
+        key_words_df = pd.DataFrame(keyword_extractor.extract_keywords(news.article.text),
+                                    columns=['Key Word', 'Score'])
     col1, col2, col3 = st.columns([1,2,1])
     col2.dataframe(key_words_df, hide_index=True, use_container_width=True)
 #%%
@@ -126,9 +133,10 @@ if st.session_state.do_zeroshot:
     keywords = st_tags(label='',
                        text='Press enter to add more',
                        value= ['Politics', 'Science', 'Business', 'Travel'])
-    zeroshot_results = classifier.classify(news.article.text, keywords)
-    zeroshot_df = pd.DataFrame(classifier.classify(news.article.text, keywords))
-    zeroshot_df = zeroshot_df.drop(columns='sequence')
+    with st.spinner('Zero-Shot Classifying...'):
+        zeroshot_results = classifier.classify(news.article.text, keywords)
+        zeroshot_df = pd.DataFrame(classifier.classify(news.article.text, keywords))
+        zeroshot_df = zeroshot_df.drop(columns='sequence')
     zeroshot_df = zeroshot_df.sort_values('scores', ascending=False)
     # zeroshot_df = zeroshot_df.sort_values('Probability').reset_index()
     col1, col2, col3 = st.columns([1,2,1])
@@ -136,9 +144,10 @@ if st.session_state.do_zeroshot:
 #%%
 if st.session_state.do_summarization:
     st.divider()
-    summarizer = load_summarizer()
     st.subheader('Summary')
-    summary = summarizer.summarize(news.article.text)
+    with st.spinner('Summarizing the article...'):
+        summarizer = load_summarizer()
+        summary = summarizer.summarize(news.article.text)
     st.write(summary)
     # st.write(news.article.text)
 #%%
@@ -146,11 +155,10 @@ if st.session_state.do_summarization:
 
 if st.session_state.do_qna:
     st.divider()
+    st.subheader('Question Answering about Article')
     st.session_state.chatbot = load_chatbot()
     st.session_state.chatbot.create_vector_db(news.article.text)
     st.session_state.chatbot.create_pipe()
-    st.subheader('Question Answering about Article')
-
     for message in st.session_state.chatbot.memory.chat_memory.messages:
         with st.chat_message(message.type):
             st.write(message.content)
@@ -161,9 +169,12 @@ if st.session_state.do_qna:
         with st.chat_message('human'):
             # st.write(f':green[*USER* ---> {question}]')
             st.write(question)
-        result = st.session_state.chatbot.infer(question)
-        with st.chat_message('ai'):
-            # st.write(f':blue[*ANSWER* --> {qna.infer(question, news.article.text)}]')
-            st.write(result['answer'])
+        with st.spinner('Asking Llama-2 ...'):
+            result = st.session_state.chatbot.infer(question)
+            with st.chat_message('ai'):
+                # st.write(f':blue[*ANSWER* --> {qna.infer(question, news.article.text)}]')
+                st.write(result['answer'])
+                if st.session_state.show_doc:
+                    st.dataframe({i:doc.page_content for i,doc in enumerate(result['source_documents'])})
 
     st.button('Clear Chat', on_click=clear_chat())

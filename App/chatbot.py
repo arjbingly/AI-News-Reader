@@ -5,11 +5,14 @@ from langchain.chains import RetrievalQA, ConversationalRetrievalChain
 from langchain.memory import ConversationBufferMemory
 from langchain.llms import LlamaCpp
 
-
+import os
+CUR_DIR = os.getcwd()
+MODEL_DIR = CUR_DIR + os.sep + 'Models'
 # %%
 class ConversationalQA:
     def __init__(self):
-        self.model_path = "/home/ubuntu/Downloads/llama-2-13b-chat.Q5_K_M.gguf"
+        # self.model_path = "/home/ubuntu/Downloads/llama-2-13b-chat.Q5_K_M.gguf"
+        self.model_path = MODEL_DIR+os.sep+"llama-2-13b-chat.Q5_K_M.gguf"
         self.embedding_model = 'sentence-transformers/all-MiniLM-L12-v2'
         self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=150,
                                                             chunk_overlap=50,

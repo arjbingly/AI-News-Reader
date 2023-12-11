@@ -1,5 +1,4 @@
 from newspaper import Article
-from translation import Translator
 #%%
 class NewsArticle:
     def __init__(self, url):

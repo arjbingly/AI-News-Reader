@@ -108,6 +108,15 @@ with st.spinner('Loading the bot...'):
     st.session_state.chatbot.create_vector_db(news.article.text)
     st.session_state.chatbot.create_pipe()
 
+#%%
+if st.session_state.do_summarization:
+    st.divider()
+    st.subheader('Summary')
+    with st.spinner('Summarizing the article...'):
+        summarizer = load_summarizer()
+        summary = summarizer.summarize(news.article.text)
+        st.session_state['summary'] = summary
+    st.write(st.session_state.summary)
 # %%
 if st.session_state.do_key_word:
     st.divider()
@@ -138,13 +147,6 @@ if st.session_state.do_zeroshot:
     col1, col2, col3 = st.columns([1, 2, 1])
     col2.dataframe(st.session_state.zeroshot_df, hide_index=True, use_container_width=True)
 # %%
-if st.session_state.do_summarization:
-    st.divider()
-    st.subheader('Summary')
-    with st.spinner('Summarizing the article...'):
-        summarizer = load_summarizer()
-        summary = summarizer.summarize(news.article.text)
-        st.session_state['summary'] = summary
-    st.write(st.session_state.summary)
+
 # %%
 

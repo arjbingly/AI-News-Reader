@@ -9,13 +9,13 @@ class Summarizer:
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
         self.model = BartForConditionalGeneration.from_pretrained(self.model_name)
         self.max_length = 300
-        self.min_length = 50
+        self.min_length = 10
         self.device = "cuda:0" if torch.cuda.is_available() else "cpu"
-        self.device = 'cpu'
+        # self.device = 'cpu'
         self.model = self.model.to(self.device)
         self.text_splitter = RecursiveCharacterTextSplitter.from_huggingface_tokenizer(self.tokenizer,
                                                                                        chunk_size=512,
-                                                                                       chunk_overlap=50)
+                                                                                       chunk_overlap=10)
 
     def split_text(self, text):
         pages = self.text_splitter.split_text(text)

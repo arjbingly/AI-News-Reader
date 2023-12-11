@@ -61,11 +61,11 @@ class NewsArticle:
 #%%
 ## Example
 #%%
-url = 'https://www.cnn.com/2023/10/03/europe/nobel-prize-physics-electrons-flashes-light-intl-scn/index.html' # English News
-# url = 'https://www.bbc.com/arabic/live/67644287'
-news = NewsArticle(url)
-
-print('**NEWS ARTICLE**')
-print(f'Title : {news.article.title}')
-print(f'Author: {news.article.authors}')
-print(f'Text  : {news.article.text}')
+# url = 'https://www.cnn.com/2023/10/03/europe/nobel-prize-physics-electrons-flashes-light-intl-scn/index.html' # English News
+# # url = 'https://www.bbc.com/arabic/live/67644287'
+# news = NewsArticle(url)
+#
+# print('**NEWS ARTICLE**')
+# print(f'Title : {news.article.title}')
+# print(f'Author: {news.article.authors}')
+# print(f'Text  : {news.article.text}')

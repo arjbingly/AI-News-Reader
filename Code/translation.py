@@ -1,7 +1,7 @@
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
-from news_fetch import NewsArticle
+# from news_fetch import NewsArticle
 
-class NewsTranslator:
+class Translator:
     def __init__(self, model_name="facebook/mbart-large-50-many-to-one-mmt", target_lang = 'English', source_lang = None):
         self.model = MBartForConditionalGeneration.from_pretrained(model_name)
         self.tokenizer = MBart50TokenizerFast.from_pretrained(model_name)

@@ -2,7 +2,9 @@
 
 An interactive news reader application powered by NLP techniques for personalized and streamlined news exploration.
 
- Here is an expanded description of the features:
+![Screenshot](images/App_01.png)
+
+Here is a description of the features:
 
 ## Features
 
@@ -35,6 +37,13 @@ An interactive news reader application powered by NLP techniques for personalize
   - Uses chat history for context to improve conversational flow
   - Ability to show user the article text used to answer their question
   - Handles clarification questions and followup queries
+
+## App Demo
+![Screenshot](images/App_01.png)
+![Screenshot](images/App_02.png)
+![Screenshot](images/App_03.png)
+![Screenshot](images/App_04.png)
+![Screenshot](images/App_05.png)
 
 ## Getting Started
 
